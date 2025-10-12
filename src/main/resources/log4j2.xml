@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" shutdownHook="disable">
+
+    <Properties>
+        <Property name="logDir">logs</Property>
+    </Properties>
+
+    <CustomLevels>
+    </CustomLevels>
+
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+
+        <RollingFile name="FileAppender" fileName="${logDir}/user-service.log"
+                     filePattern="${logDir}/user-service-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+
+        <RollingFile name="ErrorFile" fileName="${logDir}/errors.log"
+                     filePattern="${logDir}/errors-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+
+        <RollingFile name="HibernateSqlFile" fileName="${logDir}/hibernate-sql.log"
+                     filePattern="${logDir}/hibernate-sql-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [HIBERNATE] - %msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="5 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="5"/>
+        </RollingFile>
+
+        <RollingFile name="AppFile" fileName="${logDir}/application.log"
+                     filePattern="${logDir}/application-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <Logger name="org.hibernate.SQL" level="DEBUG" additivity="false">
+            <AppenderRef ref="HibernateSqlFile"/>
+            <AppenderRef ref="Console" level="INFO"/>
+        </Logger>
+
+        <Logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE" additivity="false">
+            <AppenderRef ref="HibernateSqlFile"/>
+        </Logger>
+
+        <Logger name="org.example.controller" level="INFO" additivity="false">
+            <AppenderRef ref="AppFile"/>
+            <AppenderRef ref="Console"/>
+        </Logger>
+
+        <Logger name="org.example.service" level="DEBUG" additivity="false">
+            <AppenderRef ref="AppFile"/>
+            <AppenderRef ref="Console" level="INFO"/>
+        </Logger>
+
+        <Logger name="org.example.repository" level="DEBUG" additivity="false">
+            <AppenderRef ref="AppFile"/>
+            <AppenderRef ref="Console" level="INFO"/>
+        </Logger>
+
+        <Logger name="org.example.exception" level="DEBUG" additivity="false">
+            <AppenderRef ref="AppFile"/>
+            <AppenderRef ref="Console" level="INFO"/>
+        </Logger>
+
+        <Logger name="org.springframework" level="INFO" additivity="false">
+            <AppenderRef ref="AppFile"/>
+            <AppenderRef ref="Console" level="WARN"/>
+        </Logger>
+
+        <Logger name="org.hibernate" level="INFO" additivity="false">
+            <AppenderRef ref="AppFile"/>
+            <AppenderRef ref="Console" level="WARN"/>
+        </Logger>
+
+        <Root level="INFO">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="FileAppender"/>
+            <AppenderRef ref="ErrorFile" level="ERROR"/>
+        </Root>
+    </Loggers>
+</Configuration>
