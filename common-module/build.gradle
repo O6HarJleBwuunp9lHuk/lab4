@@ -1,0 +1,27 @@
+plugins {
+  id 'java'
+  id 'io.spring.dependency-management' version '1.1.4'
+}
+
+group = 'org.example'
+version = '1.0.0'
+
+repositories {
+  mavenCentral()
+}
+
+dependencyManagement {
+  imports {
+    mavenBom 'org.springframework.boot:spring-boot-dependencies:3.2.0'
+  }
+}
+
+dependencies {
+  implementation 'com.fasterxml.jackson.core:jackson-databind'
+  implementation 'com.fasterxml.jackson.core:jackson-core'
+  implementation 'com.fasterxml.jackson.core:jackson-annotations'
+}
+
+java {
+  sourceCompatibility = '17'
+}

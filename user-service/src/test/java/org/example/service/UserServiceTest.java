@@ -26,6 +26,9 @@ class UserServiceTest {
     @Mock
     private UserRepository userRepository;
 
+    @Mock
+    private UserEventPublisher userEventPublisher;
+
     @InjectMocks
     private UserService userService;
 
@@ -50,6 +53,7 @@ class UserServiceTest {
 
         verify(userRepository).existsByEmail("john@example.com");
         verify(userRepository).save(any(User.class));
+        verify(userEventPublisher).publishUserCreated("john@example.com"); // ДОБАВЬТЕ ЭТУ ПРОВЕРКУ
     }
 
     @Test
@@ -250,21 +254,25 @@ class UserServiceTest {
     @Test
     void deleteUser_WithExistingId_ShouldDeleteUser() {
         // Given
-        when(userRepository.existsById(1L)).thenReturn(true);
+        User user = new User("John Doe", "john@example.com", 30);
+        user.setId(1L);
+
+        when(userRepository.findById(1L)).thenReturn(Optional.of(user)); // ИЗМЕНИТЕ НА findById
         doNothing().when(userRepository).deleteById(1L);
 
         // When
         userService.deleteUser(1L);
 
         // Then
-        verify(userRepository).existsById(1L);
+        verify(userRepository).findById(1L); // ИЗМЕНИТЕ НА findById
         verify(userRepository).deleteById(1L);
+        verify(userEventPublisher).publishUserDeleted("john@example.com"); // ДОБАВЬТЕ ЭТУ ПРОВЕРКУ
     }
 
     @Test
     void deleteUser_WithNonExistingId_ShouldThrowException() {
         // Given
-        when(userRepository.existsById(999L)).thenReturn(false);
+        when(userRepository.findById(999L)).thenReturn(Optional.empty()); // ИЗМЕНИТЕ НА findById
 
         // When & Then
         IllegalStateException exception = assertThrows(IllegalStateException.class,
@@ -272,6 +280,7 @@ class UserServiceTest {
 
         assertThat(exception.getMessage()).contains("not found");
         verify(userRepository, never()).deleteById(anyLong());
+        verify(userEventPublisher, never()).publishUserDeleted(anyString()); // ДОБАВЬТЕ ЭТУ ПРОВЕРКУ
     }
 
     @Test

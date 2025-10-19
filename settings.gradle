@@ -1,5 +1,5 @@
 rootProject.name = 'lab4'
 include 'notification-service'
 include 'user-service'
-
+include 'common-module'
 

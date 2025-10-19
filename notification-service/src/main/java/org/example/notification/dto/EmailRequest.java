@@ -15,7 +15,6 @@ public class EmailRequest {
     @NotBlank(message = "Message is required")
     private String message;
 
-    // Constructors
     public EmailRequest() {}
 
     public EmailRequest(String email, String subject, String message) {
@@ -24,7 +23,6 @@ public class EmailRequest {
         this.message = message;
     }
 
-    // Getters and Setters
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
 
