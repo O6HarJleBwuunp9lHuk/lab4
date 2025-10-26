@@ -1,6 +1,7 @@
 package org.example.common.event;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.time.LocalDateTime;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -9,7 +10,8 @@ public class UserEvent {
     private EventType eventType;
     private LocalDateTime timestamp;
 
-    public UserEvent() {}
+    public UserEvent() {
+    }
 
     public UserEvent(String email, EventType eventType) {
         this.email = email;
@@ -17,15 +19,29 @@ public class UserEvent {
         this.timestamp = LocalDateTime.now();
     }
 
-    // Getters and Setters
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
+    public String getEmail() {
+        return email;
+    }
 
-    public EventType getEventType() { return eventType; }
-    public void setEventType(EventType eventType) { this.eventType = eventType; }
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-    public LocalDateTime getTimestamp() { return timestamp; }
-    public void setTimestamp(LocalDateTime timestamp) { this.timestamp = timestamp; }
+    public EventType getEventType() {
+        return eventType;
+    }
+
+    public void setEventType(EventType eventType) {
+        this.eventType = eventType;
+    }
+
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(LocalDateTime timestamp) {
+        this.timestamp = timestamp;
+    }
 
     @Override
     public String toString() {
