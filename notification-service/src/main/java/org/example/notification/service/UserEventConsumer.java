@@ -29,7 +29,6 @@ public class UserEventConsumer {
 
         } catch (Exception e) {
             log.error("Failed to process event: {}", event, e);
-            ack.acknowledge();
         }
     }
 }
