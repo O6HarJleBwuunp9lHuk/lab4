@@ -8,7 +8,9 @@ group = 'org.example'
 version = '1.0.0'
 
 java {
-  sourceCompatibility = '17'
+  toolchain {
+    languageVersion = JavaLanguageVersion.of(21)
+  }
 }
 
 repositories {
@@ -25,6 +27,7 @@ dependencies {
   implementation 'org.apache.logging.log4j:log4j-core'
   implementation 'org.postgresql:postgresql'
   implementation 'com.fasterxml.jackson.core:jackson-databind'
+  implementation 'jakarta.annotation:jakarta.annotation-api:2.0.0'
   implementation project(':common-module')
   runtimeOnly 'com.h2database:h2'
   testImplementation 'org.springframework.boot:spring-boot-starter-test'
