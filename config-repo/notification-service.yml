@@ -1,0 +1,25 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: notification-service
+  mail:
+    host: mailhog
+    port: 1025
+    properties:
+      mail:
+        smtp:
+          auth: false
+          starttls:
+            enable: false
+
+app:
+  kafka:
+    topics:
+      user-events: user-events
+
+logging:
+  level:
+    org.example.notification: DEBUG
+    org.springframework.kafka: DEBUG

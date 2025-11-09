@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" shutdownHook="disable">
+
+    <Properties>
+        <Property name="logDir">logs</Property>
+    </Properties>
+
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+
+        <RollingFile name="FileAppender" fileName="${logDir}/notification-service.log"
+                     filePattern="${logDir}/notification-service-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+
+        <RollingFile name="ErrorFile" fileName="${logDir}/notification-errors.log"
+                     filePattern="${logDir}/notification-errors-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+
+        <RollingFile name="CircuitBreakerFile" fileName="${logDir}/circuit-breaker.log"
+                     filePattern="${logDir}/circuit-breaker-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="5 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="5"/>
+        </RollingFile>
+
+        <RollingFile name="KafkaFile" fileName="${logDir}/kafka-events.log"
+                     filePattern="${logDir}/kafka-events-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [KAFKA] [%t] %-5level - %msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="5 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="5"/>
+        </RollingFile>
+
+        <RollingFile name="EmailFile" fileName="${logDir}/email-events.log"
+                     filePattern="${logDir}/email-events-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [EMAIL] [%t] %-5level - %msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="5 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="5"/>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <!-- Circuit Breaker логи -->
+        <Logger name="org.example.notification.circuitbreaker" level="DEBUG" additivity="false">
+            <AppenderRef ref="CircuitBreakerFile"/>
+            <AppenderRef ref="Console" level="INFO"/>
+        </Logger>
+
+        <!-- Service Discovery логи -->
+        <Logger name="org.example.notification.discovery" level="DEBUG" additivity="false">
+            <AppenderRef ref="FileAppender"/>
+            <AppenderRef ref="Console" level="INFO"/>
+        </Logger>
+
+        <!-- Email Service логи -->
+        <Logger name="org.example.notification.service.EmailService" level="DEBUG" additivity="false">
+            <AppenderRef ref="EmailFile"/>
+            <AppenderRef ref="Console" level="INFO"/>
+        </Logger>
+
+        <!-- Kafka Consumer логи -->
+        <Logger name="org.example.notification.service.UserEventConsumer" level="DEBUG" additivity="false">
+            <AppenderRef ref="KafkaFile"/>
+            <AppenderRef ref="Console" level="INFO"/>
+        </Logger>
+
+        <!-- Gateway логи -->
+        <Logger name="org.example.notification.gateway" level="DEBUG" additivity="false">
+            <AppenderRef ref="FileAppender"/>
+            <AppenderRef ref="Console" level="INFO"/>
+        </Logger>
+
+        <!-- Rate Limiting логи -->
+        <Logger name="org.example.notification.ratelimit" level="DEBUG" additivity="false">
+            <AppenderRef ref="FileAppender"/>
+            <AppenderRef ref="Console" level="INFO"/>
+        </Logger>
+
+        <!-- Test Controller логи -->
+        <Logger name="org.example.notification.controller.PatternTestController" level="DEBUG" additivity="false">
+            <AppenderRef ref="FileAppender"/>
+            <AppenderRef ref="Console" level="INFO"/>
+        </Logger>
+
+        <!-- Spring Framework логи -->
+        <Logger name="org.springframework" level="INFO" additivity="false">
+            <AppenderRef ref="FileAppender"/>
+            <AppenderRef ref="Console" level="WARN"/>
+        </Logger>
+
+        <!-- Kafka логи -->
+        <Logger name="org.apache.kafka" level="INFO" additivity="false">
+            <AppenderRef ref="KafkaFile"/>
+            <AppenderRef ref="Console" level="WARN"/>
+        </Logger>
+
+        <!-- Корневой логгер -->
+        <Root level="INFO">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="FileAppender"/>
+            <AppenderRef ref="ErrorFile" level="ERROR"/>
+        </Root>
+    </Loggers>
+</Configuration>

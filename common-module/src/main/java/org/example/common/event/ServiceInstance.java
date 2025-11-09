@@ -1,4 +1,4 @@
-package org.example.notification.discovery;
+package org.example.common.event;
 
 import java.util.Map;
 import java.util.HashMap;

@@ -1,4 +1,4 @@
-package org.example.notification.circuitbreaker;
+package com.example.circuitbreaker.core;
 
 import org.springframework.stereotype.Component;
 import java.util.concurrent.ConcurrentHashMap;

@@ -1,16 +1,12 @@
-package org.example.notification;
+package com.example.circuitbreaker;
+
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.io.File;
-
 @SpringBootApplication
-public class Application {
+public class CircuitBreakerApplication {
     public static void main(String[] args) {
-
-        new File("logs").mkdirs();
-
-        SpringApplication.run(Application.class, args);
+        SpringApplication.run(CircuitBreakerApplication.class, args);
     }
 }

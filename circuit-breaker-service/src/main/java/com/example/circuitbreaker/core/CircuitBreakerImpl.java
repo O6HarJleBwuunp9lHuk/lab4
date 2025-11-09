@@ -1,4 +1,4 @@
-package org.example.notification.circuitbreaker;
+package com.example.circuitbreaker.core;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

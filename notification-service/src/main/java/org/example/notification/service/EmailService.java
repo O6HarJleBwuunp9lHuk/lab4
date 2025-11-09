@@ -1,6 +1,5 @@
 package org.example.notification.service;
 
-import org.example.notification.circuitbreaker.CircuitBreaker;
 import org.example.notification.dto.EmailRetryMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,12 +46,7 @@ public class EmailService {
         }
     }
 
-    @CircuitBreaker(
-        name = "emailService",
-        failureThreshold = 3,
-        timeout = 30000,
-        fallbackMethod = "sendWelcomeEmailFallback"
-    )
+
     public void sendWelcomeEmail(String email) {
         String subject = "Добро пожаловать!";
         String text = "Здравствуйте! Ваш аккаунт на сайте ваш сайт был успешно создан.";
@@ -64,12 +58,7 @@ public class EmailService {
         scheduleWelcomeEmailRetry(email);
     }
 
-    @CircuitBreaker(
-        name = "emailService",
-        failureThreshold = 3,
-        timeout = 30000,
-        fallbackMethod = "sendGoodbyeEmailFallback"
-    )
+
     public void sendGoodbyeEmail(String email) {
         String subject = "Ваш аккаунт удален";
         String text = "Здравствуйте! Ваш аккаунт был удалён.";
